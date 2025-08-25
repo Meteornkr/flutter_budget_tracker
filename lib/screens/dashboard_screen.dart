@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import '../models/transaction.dart';
 import '../models/category.dart';
 import 'dart:math';
+import '../providers/currency_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -74,16 +75,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildSummaryRow(String title, double amount, Color color) {
+    // Get the provider
+    final currencyProvider = Provider.of<CurrencyProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: const TextStyle(fontSize: 16)),
         Text(
-          '\$${amount.toStringAsFixed(2)}',
+          '${currencyProvider.selectedCurrencySymbol}${amount.toStringAsFixed(2)}', // Use dynamic symbol
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
         ),
       ],
     );
+}
   }
 
   Widget _buildPieChart(Box<Transaction> box) {
