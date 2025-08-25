@@ -17,6 +17,7 @@ dependencies:
   intl: ^0.18.0
   fl_chart: ^0.68.0
   uuid: ^3.0.7
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

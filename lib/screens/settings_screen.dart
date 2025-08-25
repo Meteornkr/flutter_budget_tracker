@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
+import '../providers/currency_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -9,6 +10,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final currencyProvider = Provider.of<CurrencyProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,13 +30,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Currency'),
-            subtitle: const Text('USD'), // Placeholder
-            onTap: () {
-              // TODO: Implement currency selection
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Currency selection coming soon!')),
-              );
-            },
+            subtitle: Text(currencyProvider.selectedCurrency), // Show current currency
+            onTap: () => _showCurrencySelectionDialog(context, currencyProvider),
           ),
           ListTile(
             title: const Text('Export Data'),
@@ -56,6 +53,34 @@ class SettingsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+  
+  void _showCurrencySelectionDialog(BuildContext context, CurrencyProvider provider) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select Currency'),
+          content: SizedBox(
+            width: double.minPositive,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: provider.availableCurrencies.length,
+              itemBuilder: (BuildContext context, int index) {
+                final currencyCode = provider.availableCurrencies[index];
+                return ListTile(
+                  title: Text(currencyCode),
+                  onTap: () {
+                    provider.setSelectedCurrency(currencyCode);
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }

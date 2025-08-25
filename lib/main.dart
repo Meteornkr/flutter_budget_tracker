@@ -11,6 +11,7 @@ import 'screens/transactions_screen.dart';
 import 'screens/budgets_screen.dart';
 import 'screens/settings_screen.dart';
 import 'providers/theme_provider.dart';
+import 'providers/currency_provider.dart';
 
 void main() async {
   // Initialize Hive for local database
@@ -25,8 +26,11 @@ void main() async {
   await Hive.openBox<Budget>('budgets');
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => CurrencyProvider()), // Add the new provider
+      ],
       child: const BudgetTrackerApp(),
     ),
   );
