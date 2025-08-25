@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 import '../models/category.dart';
 import 'add_edit_transaction_screen.dart';
+import '../providers/currency_provider.dart';
 
 class TransactionsScreen extends StatefulWidget {
   const TransactionsScreen({super.key});
@@ -100,6 +101,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final categoriesBox = Hive.box<Category>('categories');
     final category = categoriesBox.values.firstWhere((c) => c.id == transaction.categoryId, orElse: () => Category(id: 'other', name: 'Other', colorValue: Colors.grey.value));
     final color = transaction.isExpense ? Colors.red : Colors.green;
+    final currencyProvider = Provider.of<CurrencyProvider>(context, listen: false);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -117,7 +119,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '${transaction.isExpense ? '-' : '+'}\$${transaction.amount.toStringAsFixed(2)}',
+              '${transaction.isExpense ? '-' : '+'}${currencyProvider.selectedCurrencySymbol}${transaction.amount.toStringAsFixed(2)}', // Use dynamic symbol
               style: TextStyle(color: color, fontWeight: FontWeight.bold),
             ),
           ],
