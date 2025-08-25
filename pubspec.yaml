@@ -18,6 +18,8 @@ dependencies:
   fl_chart: ^0.68.0
   uuid: ^3.0.7
   shared_preferences: ^2.2.3
+  flutter_local_notifications: ^17.1.2 # notifications
+  timezone: ^0.9.3 # Required by the notifications package
 
 dev_dependencies:
   flutter_test:

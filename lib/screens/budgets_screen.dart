@@ -1,6 +1,7 @@
 // screens/budgets_screen.dart
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import '../models/budget.dart';
 import '../models/category.dart';
 import '../models/transaction.dart';

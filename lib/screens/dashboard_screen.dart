@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 import '../models/transaction.dart';
 import '../models/category.dart';
-import 'dart:math';
 import '../providers/currency_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -87,7 +87,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ],
     );
-}
   }
 
   Widget _buildPieChart(Box<Transaction> box) {
