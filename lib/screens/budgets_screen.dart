@@ -5,6 +5,7 @@ import '../models/budget.dart';
 import '../models/category.dart';
 import '../models/transaction.dart';
 import 'add_edit_budget_screen.dart';
+import '../providers/currency_provider.dart';
 
 class BudgetsScreen extends StatefulWidget {
   const BudgetsScreen({super.key});
@@ -51,6 +52,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Widget _buildBudgetItem(Budget budget) {
     final categoriesBox = Hive.box<Category>('categories');
     final category = categoriesBox.values.firstWhere((c) => c.id == budget.categoryId);
+    final currencyProvider = Provider.of<CurrencyProvider>(context, listen: false);
     
     final transactionsBox = Hive.box<Transaction>('transactions');
     double spent = transactionsBox.values
@@ -84,7 +86,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            Text('Spent: \$${spent.toStringAsFixed(2)} of \$${budget.limit.toStringAsFixed(2)}'),
+            Text('Spent: ${currencyProvider.selectedCurrencySymbol}${spent.toStringAsFixed(2)} of ${currencyProvider.selectedCurrencySymbol}${budget.limit.toStringAsFixed(2)}'), // Use dynamic symbol
             const SizedBox(height: 8),
             LinearProgressIndicator(
               value: progress,
